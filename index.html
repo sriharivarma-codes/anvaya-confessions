@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anvaya ’26 Confessions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,600;1,800&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#12051d; --plum:#2a0e45; --pumpkin:#ff7a1a; --blush:#ff8fc0; --gold:#f6d58e;
+  --ivory:#fff7f2; --muted:#b9a6cf;
+}
+*{box-sizing:border-box;margin:0}
+body{font-family:'Outfit',system-ui,sans-serif;color:var(--ivory);line-height:1.6;background:var(--night);overflow-x:hidden}
+
+/* whole page = night, with stars + moon; the light hero is cut over it on a diagonal */
+.page{position:relative;overflow:hidden;min-height:100vh;
+  background:radial-gradient(50% 35% at 75% 70%,#2d1250,transparent 70%),radial-gradient(40% 30% at 10% 95%,rgba(255,122,26,.18),transparent 70%),var(--night)}
+.star{position:absolute;border-radius:50%;background:#fff}
+.moon{position:absolute;left:50%;bottom:-130px;width:260px;height:260px;margin-left:-130px;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%,#ffb347,#e8561a 58%,#a52a0a);box-shadow:0 0 80px 18px rgba(255,122,26,.4)}
+
+/* light half */
+.top{position:relative;z-index:1;filter:drop-shadow(0 10px 22px rgba(255,122,26,.55))}
+.hero{position:relative;text-align:center;color:var(--plum);padding:128px 20px 190px;
+  clip-path:polygon(0 0,100% 0,100% 80%,0 100%);
+  background:
+    radial-gradient(45% 40% at 15% 25%,rgba(255,143,192,.55),transparent 70%),
+    radial-gradient(40% 35% at 90% 55%,rgba(255,190,214,.7),transparent 70%),
+    linear-gradient(165deg,#fff9f5,#ffe3ee 60%,#ffd0e2)}
+.ball{position:absolute;top:-100px;left:50%;width:210px;height:210px;margin-left:-105px;border-radius:50%;
+  background:repeating-linear-gradient(90deg,rgba(40,30,70,.35) 0 1px,transparent 1px 13px),
+    repeating-linear-gradient(0deg,rgba(40,30,70,.35) 0 1px,transparent 1px 13px),
+    radial-gradient(circle at 35% 70%,#fff,#cfcbe6 45%,#7a7596);
+  box-shadow:0 0 70px 22px rgba(255,110,150,.45);animation:shimmer 6s linear infinite}
+@keyframes shimmer{to{background-position:13px 0,0 13px,0 0}}
+.pill{display:inline-block;font-weight:600;font-size:15px;padding:6px 16px;border-radius:999px;border:1px solid rgba(42,14,69,.35);background:rgba(255,255,255,.6)}
+h1{font-family:'Bodoni Moda',serif;font-style:italic;font-weight:800;font-size:clamp(44px,11vw,78px);line-height:1.02;margin:16px 0 12px;
+  background:linear-gradient(100deg,#3b1260,#e0397f 55%,var(--pumpkin));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{font-weight:300;font-size:19px;max-width:34ch;margin:0 auto;color:#4a2a66}
+.ghost{position:absolute;right:5%;bottom:calc(20% + 6px);font-size:56px;line-height:1;transform:rotate(-8deg);z-index:2}
+
+/* ticket: light top, dark bottom, same diagonal */
+.wrap{position:relative;z-index:2;max-width:620px;margin:-120px auto 0;padding:0 18px 90px}
+.ticket{border-radius:22px;overflow:hidden;border:1px solid rgba(246,213,142,.55);
+  box-shadow:0 0 0 6px rgba(255,143,192,.1),0 30px 80px -20px rgba(0,0,0,.8)}
+.tp{background:linear-gradient(170deg,#fff9f5,#ffe3ee);color:var(--plum);padding:28px 24px 48px}
+.tb{background:linear-gradient(170deg,#2a0e45,#160726);padding:46px 24px 24px;margin-top:-26px;clip-path:polygon(0 26px,100% 0,100% 100%,0 100%)}
+label.t{display:block;font-weight:600;margin-bottom:8px}
+textarea,input[type=text]{width:100%;font:inherit;padding:14px 16px;border-radius:14px;outline:none;transition:.2s}
+textarea{min-height:160px;resize:vertical;background:#fff;color:#2a0e45;border:1px solid rgba(224,57,127,.35)}
+textarea:focus{border-color:#e0397f;box-shadow:0 0 0 3px rgba(224,57,127,.2)}
+textarea::placeholder{color:#a58ab8}
+.tb input[type=text]{background:rgba(10,3,18,.6);color:var(--ivory);border:1px solid rgba(185,166,207,.35)}
+.tb input[type=text]:focus{border-color:var(--blush);box-shadow:0 0 0 3px rgba(255,143,192,.25)}
+.tb ::placeholder{color:#7d6a94}
+
+.who{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 16px}
+.who input{position:absolute;opacity:0}
+.who label{display:flex;flex-direction:column;gap:2px;cursor:pointer;padding:14px 16px;border-radius:14px;border:1px solid rgba(185,166,207,.35);transition:.2s}
+.who label b{font-weight:600}.who label span{font-size:14px;color:var(--muted)}
+.who input:checked+label{border-color:var(--gold);background:rgba(246,213,142,.1);box-shadow:0 0 22px rgba(246,213,142,.2)}
+.who input:focus-visible+label{outline:2px solid var(--blush);outline-offset:2px}
+#nameWrap{display:none;margin-bottom:16px}#nameWrap.show{display:block}
+
+button{width:100%;font:inherit;font-weight:600;font-size:18px;color:var(--plum);cursor:pointer;padding:15px;border:0;border-radius:999px;margin-top:6px;
+  background:linear-gradient(100deg,var(--gold),var(--blush) 55%,var(--pumpkin));box-shadow:0 10px 30px -8px rgba(255,122,26,.7);transition:transform .15s,filter .2s}
+button:hover{transform:translateY(-2px);filter:brightness(1.08)}
+button:disabled{opacity:.6;cursor:wait;transform:none}
+.err{color:#ffb4a8;font-size:15px;margin-top:12px;min-height:1em;text-align:center}
+.hp{position:absolute;left:-9999px}
+
+#thanks{display:none;text-align:center;padding:44px 20px 34px;background:linear-gradient(170deg,#2a0e45,#160726)}
+#thanks .big{font-size:54px}
+#thanks h2{font-family:'Bodoni Moda',serif;font-style:italic;font-size:34px;margin:8px 0;color:var(--gold)}
+#thanks p{color:var(--muted)}
+#thanks button{width:auto;padding:12px 28px;font-size:16px;margin-top:20px}
+.done form{display:none}.done #thanks{display:block;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{transform:scale(.9);opacity:0}}
+
+footer{text-align:center;color:#c9b8dd;font-size:14px;margin-top:26px}
+.float{position:absolute;top:-40px;z-index:3;pointer-events:none;opacity:.75;animation:fall linear infinite}
+@keyframes fall{to{transform:translateY(120vh) rotate(360deg)}}
+@media(max-width:480px){.who{grid-template-columns:1fr}.ghost{font-size:44px}}
+@media(prefers-reduced-motion:reduce){.float{display:none}*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="page" id="page">
+  <div class="moon" aria-hidden="true"></div>
+
+  <div class="top">
+    <header class="hero">
+      <div class="ball" aria-hidden="true"></div>
+      <span class="pill">Anvaya ’26 Freshers’ Party</span>
+      <h1>Confessions</h1>
+      <p class="sub">Crush, secret, awkward story, shoutout? Drop it here anonymously or with your name.</p>
+    </header>
+    <span class="ghost" aria-hidden="true">👻</span>
+  </div>
+
+  <div class="wrap">
+    <section class="ticket" id="ticket">
+      <form id="form" autocomplete="off">
+        <div class="tp">
+          <label class="t" for="confession">Your confession</label>
+          <textarea id="confession" required placeholder="Type your confession here…"></textarea>
+        </div>
+        <div class="tb">
+          <div class="who" role="radiogroup" aria-label="How do you want to be shown?">
+            <div><input type="radio" name="who" id="anon" value="anon" checked>
+              <label for="anon"><b>🎭 Stay anonymous</b><span>No name attached</span></label></div>
+            <div><input type="radio" name="who" id="named" value="named">
+              <label for="named"><b>👑 Use my name</b><span>Own it</span></label></div>
+          </div>
+          <div id="nameWrap">
+            <label class="t" for="name">Your name</label>
+            <input type="text" id="name" maxlength="60" placeholder="Name or nickname">
+          </div>
+          <input class="hp" type="text" id="website" tabindex="-1" aria-hidden="true">
+          <button type="submit" id="send">Send my confession</button>
+          <p class="err" id="err" role="alert"></p>
+        </div>
+      </form>
+      <div id="thanks">
+        <div class="big" aria-hidden="true">🎃</div>
+        <h2>Confession received</h2>
+        <p>It’s out of your hands now. Thanks for sharing.</p>
+        <button type="button" id="again">Confess something else</button>
+      </div>
+    </section>
+    <footer>Happy Halloween 🎃 keep it kind</footer>
+  </div>
+</div>
+
+<script>
+/* ============ SETUP: paste your Google Apps Script web app URL here ============ */
+const SCRIPT_URL = "PASTE_YOUR_WEB_APP_URL_HERE";
+/* ================================================================================ */
+
+const $ = id => document.getElementById(id);
+const ticket = $('ticket'), err = $('err');
+
+
+document.querySelectorAll('input[name=who]').forEach(r => r.addEventListener('change', () => {
+  const named = $('named').checked;
+  $('nameWrap').classList.toggle('show', named);
+  $('name').required = named;
+}));
+
+$('form').addEventListener('submit', async e => {
+  e.preventDefault();
+  err.textContent = '';
+  const text = $('confession').value.trim();
+  if (!text) { err.textContent = 'Write your confession first.'; return; }
+  if (SCRIPT_URL.startsWith('PASTE')) { err.textContent = 'Not connected yet. Add the Apps Script URL in index.html.'; return; }
+
+  const body = new URLSearchParams({
+    confession: text,
+    name: $('named').checked ? $('name').value.trim() : '',
+    website: $('website').value
+  });
+
+  $('send').disabled = true; $('send').textContent = 'Sending…';
+  try {
+    await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body });
+    ticket.classList.add('done');
+    $('form').reset(); $('nameWrap').classList.remove('show');
+  } catch (x) {
+    err.textContent = 'Couldn’t send. Check your connection and try again.';
+  } finally {
+    $('send').disabled = false; $('send').textContent = 'Send my confession';
+  }
+});
+$('again').addEventListener('click', () => ticket.classList.remove('done'));
+
+// stars across the night layer
+const page = $('page');
+for (let i = 0; i < 90; i++) {
+  const s = document.createElement('span');
+  s.className = 'star';
+  const z = Math.random() * 2 + 1;
+  s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;width:${z}px;height:${z}px;opacity:${.25+Math.random()*.7}`;
+  page.insertBefore(s, page.firstChild);
+}
+// drifting pumpkins, ghosts, bats, sparkles
+const bits = ['🎃','✨','👻','🦇','⭐','🪩','🦋'];
+for (let i = 0; i < 14; i++) {
+  const s = document.createElement('span');
+  s.className = 'float';
+  s.textContent = bits[i % bits.length];
+  s.style.left = Math.random() * 100 + '%';
+  s.style.fontSize = (12 + Math.random() * 16) + 'px';
+  s.style.animationDuration = (16 + Math.random() * 18) + 's';
+  s.style.animationDelay = (-Math.random() * 30) + 's';
+  page.appendChild(s);
+}
+</script>
+</body>
+</html>
