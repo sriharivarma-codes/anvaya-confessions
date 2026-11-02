@@ -191,12 +191,11 @@ footer{text-align:center;color:#c9b8dd;font-size:14px;margin-top:26px}
 
 <script>
 /* ============ SETUP: paste your Google Apps Script web app URL here ============ */
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwGZJSQB5BBC5sHUIKqjeTvB0yZDQmDFvxmVv1tIIKeEA6WEcnShBN_nn-55UAUUCGn/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxxcqaN3qK43DypgF-xv3N2Z8oVVIdWCJxrqj8kLogbrTBzZ-hFF9pA5vUyUShSubny/exec";
 /* ================================================================================ */
 
 const $ = id => document.getElementById(id);
 const ticket = $('ticket'), err = $('err');
-
 
 document.querySelectorAll('input[name=who]').forEach(r => r.addEventListener('change', () => {
   const named = $('named').checked;
@@ -204,6 +203,7 @@ document.querySelectorAll('input[name=who]').forEach(r => r.addEventListener('ch
   $('name').required = named;
 }));
 
+// --- TRACKER SUBMIT FUNCTION ---
 $('form').addEventListener('submit', async e => {
   e.preventDefault();
   err.textContent = '';
@@ -211,13 +211,33 @@ $('form').addEventListener('submit', async e => {
   if (!text) { err.textContent = 'Write your confession first.'; return; }
   if (SCRIPT_URL.startsWith('PASTE')) { err.textContent = 'Not connected yet. Add the Apps Script URL in index.html.'; return; }
 
+  $('send').disabled = true; $('send').textContent = 'Sending…';
+
+  // 1. Get or Generate Device ID (saves permanently in their browser)
+  let deviceId = localStorage.getItem('anv_tracker_id');
+  if (!deviceId) {
+    deviceId = 'id_' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+    localStorage.setItem('anv_tracker_id', deviceId);
+  }
+
+  // 2. Quickly fetch their IP Address
+  let userIp = 'Unknown';
+  try {
+    const ipRes = await fetch('https://api.ipify.org?format=json');
+    const ipData = await ipRes.json();
+    userIp = ipData.ip;
+  } catch(x) { console.log("Could not fetch IP"); }
+
+  // 3. Attach tracking info
   const body = new URLSearchParams({
     confession: text,
     name: $('named').checked ? $('name').value.trim() : '',
-    website: $('website').value
+    website: $('website').value,
+    deviceId: deviceId,             // Tracking: Device ID
+    ip: userIp,                     // Tracking: IP
+    userAgent: navigator.userAgent  // Tracking: Browser info
   });
 
-  $('send').disabled = true; $('send').textContent = 'Sending…';
   try {
     await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body });
     ticket.classList.add('done');
@@ -228,6 +248,7 @@ $('form').addEventListener('submit', async e => {
     $('send').disabled = false; $('send').textContent = 'Send my confession';
   }
 });
+
 $('again').addEventListener('click', () => ticket.classList.remove('done'));
 
 // ---- tabs + reading confessions ----
@@ -352,8 +373,6 @@ function pause() {
 const isPlaying = () => (audio && !audio.paused && audio.currentTime > 0) || (AC && AC.state === 'running');
 mbtn.onclick = () => { on && isPlaying() ? pause() : play(); };
 
-// play by default: try straight away. Browsers refuse sound before the visitor has touched the page,
-// so if it is blocked, it starts on their first tap, click or key press anywhere.
 const kick = e => {
   if (!on || isPlaying() || (e.target.closest && e.target.closest('#music'))) return;
   play();
@@ -362,7 +381,6 @@ const kick = e => {
 setUI();
 if (on) play();
 
-// stars across the night layer
 const page = $('page');
 for (let i = 0; i < 90; i++) {
   const s = document.createElement('span');
@@ -371,7 +389,6 @@ for (let i = 0; i < 90; i++) {
   s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;width:${z}px;height:${z}px;opacity:${.25+Math.random()*.7}`;
   page.insertBefore(s, page.firstChild);
 }
-// drifting pumpkins, ghosts, bats, sparkles
 const bits = ['🎃','✨','👻','🦇','⭐','🪩','🦋'];
 for (let i = 0; i < 14; i++) {
   const s = document.createElement('span');
