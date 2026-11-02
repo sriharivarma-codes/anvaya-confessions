@@ -6,7 +6,7 @@
 <title>Anvaya ’26 Confessions</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,600;1,800&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,600;1,800&family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
 <style>
 :root{
   --night:#12051d; --plum:#2a0e45; --pumpkin:#ff7a1a; --blush:#ff8fc0; --gold:#f6d58e;
@@ -43,7 +43,9 @@ h1{font-family:'Bodoni Moda',serif;font-style:italic;font-weight:800;font-size:c
 .ghost{position:absolute;right:5%;bottom:calc(20% + 6px);font-size:56px;line-height:1;transform:rotate(-8deg);z-index:2}
 
 /* ticket: light top, dark bottom, same diagonal */
-.wrap{position:relative;z-index:2;max-width:620px;margin:-120px auto 0;padding:0 18px 90px}
+.wrap{position:relative;z-index:2;max-width:620px;margin:-140px auto 0;padding:0 18px 90px;transition:max-width .35s}
+.wrap.wide{max-width:1000px}
+[hidden]{display:none!important}
 .ticket{border-radius:22px;overflow:hidden;border:1px solid rgba(246,213,142,.55);
   box-shadow:0 0 0 6px rgba(255,143,192,.1),0 30px 80px -20px rgba(0,0,0,.8)}
 .tp{background:linear-gradient(170deg,#fff9f5,#ffe3ee);color:var(--plum);padding:28px 24px 48px}
@@ -83,6 +85,41 @@ button:disabled{opacity:.6;cursor:wait;transform:none}
 footer{text-align:center;color:#c9b8dd;font-size:14px;margin-top:26px}
 .float{position:absolute;top:-40px;z-index:3;pointer-events:none;opacity:.75;animation:fall linear infinite}
 @keyframes fall{to{transform:translateY(120vh) rotate(360deg)}}
+
+/* tab bar */
+.tabs{display:flex;gap:4px;padding:5px;border-radius:999px;background:rgba(18,5,29,.92);border:1px solid rgba(246,213,142,.55);box-shadow:0 14px 40px -12px rgba(0,0,0,.7);max-width:340px;margin:0 auto 20px}
+.tabs button{flex:1;width:auto;margin:0;padding:11px 14px;font-size:16px;background:transparent;color:var(--muted);box-shadow:none;transition:.25s}
+.tabs button:hover{transform:none;filter:none;color:var(--ivory)}
+.tabs button[aria-selected=true]{background:linear-gradient(100deg,var(--gold),var(--blush) 55%,var(--pumpkin));color:var(--plum);box-shadow:0 8px 22px -8px rgba(255,122,26,.7)}
+
+/* confession cards: same light/dark diagonal as the ticket, varied per card */
+.grid{columns:3 290px;column-gap:16px}
+.card{position:relative;break-inside:avoid;margin:0 0 16px;border-radius:18px;overflow:hidden;border:1px solid rgba(246,213,142,.5);box-shadow:0 18px 40px -18px rgba(0,0,0,.8);transition:transform .25s;animation:rise .5s both}
+.card:hover{transform:translateY(-4px) rotate(-.4deg)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}}
+.ct{padding:30px 22px 32px}
+.ct p{white-space:pre-wrap;overflow-wrap:anywhere;font-weight:500;font-size:16px;line-height:1.55}
+.cb{margin-top:-16px;padding:28px 20px 12px;text-align:right;clip-path:polygon(0 16px,100% 0,100% 100%,0 100%);font-family:'Bodoni Moda',serif;font-style:italic;font-weight:600;font-size:16px;overflow-wrap:anywhere}
+.em{position:absolute;top:8px;right:12px;font-size:18px;opacity:.9}
+.v0 .ct{background:linear-gradient(170deg,#fff9f5,#ffe3ee);color:var(--plum)}.v0 .cb{background:linear-gradient(170deg,#2a0e45,#160726);color:var(--gold)}
+.v1 .ct{background:linear-gradient(170deg,#2a0e45,#160726);color:var(--ivory)}.v1 .cb{background:linear-gradient(170deg,#fff9f5,#ffd0e2);color:var(--plum)}
+.v2 .ct{background:linear-gradient(170deg,#ffd0e2,#ff9ec8);color:var(--plum)}.v2 .cb{background:#160726;color:var(--gold)}
+.v3 .ct{background:radial-gradient(80% 60% at 100% 0,rgba(255,122,26,.35),transparent 70%),linear-gradient(170deg,#2a0e45,#12051d);color:var(--ivory)}.v3 .cb{background:linear-gradient(100deg,var(--gold),var(--blush) 55%,var(--pumpkin));color:var(--plum)}
+.note{padding:30px 20px;border-radius:18px;text-align:center;color:var(--muted);background:rgba(18,5,29,.85);border:1px solid rgba(246,213,142,.35)}
+.count{display:flex;align-items:baseline;justify-content:center;gap:8px;width:max-content;max-width:100%;margin:0 auto 20px;padding:10px 22px;border-radius:999px;background:rgba(18,5,29,.92);border:1px solid rgba(246,213,142,.55);box-shadow:0 14px 40px -12px rgba(0,0,0,.7);color:var(--ivory);font-size:15px}
+.count b{font-weight:800;font-size:26px;line-height:1;background:linear-gradient(100deg,var(--gold),var(--blush) 55%,var(--pumpkin));-webkit-background-clip:text;background-clip:text;color:transparent}
+.count small{color:var(--muted);font-size:13px}
+.refresh{display:block;width:auto;margin:10px auto 0;padding:10px 22px;font-size:15px;background:transparent;color:var(--gold);border:1px solid rgba(246,213,142,.5);box-shadow:none}
+
+/* music pill */
+.music{position:fixed;right:14px;bottom:14px;z-index:20;display:flex;align-items:center;gap:9px;width:auto;margin:0;padding:10px 16px;font-size:14px;color:var(--ivory);
+  background:rgba(18,5,29,.92);border:1px solid rgba(246,213,142,.55);box-shadow:0 12px 30px -10px rgba(0,0,0,.8)}
+.music:hover{color:var(--gold)}
+.eq{display:inline-flex;gap:2px;align-items:flex-end;height:14px}
+.eq i{width:3px;height:100%;background:var(--gold);border-radius:2px;transform-origin:bottom;transform:scaleY(.25);animation:eq .9s ease-in-out infinite;animation-play-state:paused}
+.eq i:nth-child(2){animation-delay:-.3s}.eq i:nth-child(3){animation-delay:-.6s}
+.music[aria-pressed=true] .eq i{animation-play-state:running}
+@keyframes eq{0%,100%{transform:scaleY(.25)}50%{transform:scaleY(1)}}
 @media(max-width:480px){.who{grid-template-columns:1fr}.ghost{font-size:44px}}
 @media(prefers-reduced-motion:reduce){.float{display:none}*{animation:none!important;transition:none!important}}
 </style>
@@ -102,6 +139,11 @@ footer{text-align:center;color:#c9b8dd;font-size:14px;margin-top:26px}
   </div>
 
   <div class="wrap">
+    <nav class="tabs" role="tablist" aria-label="Choose view">
+      <button type="button" role="tab" id="tabSend" aria-selected="true">✍️ Send</button>
+      <button type="button" role="tab" id="tabRead" aria-selected="false">👀 Read</button>
+    </nav>
+
     <section class="ticket" id="ticket">
       <form id="form" autocomplete="off">
         <div class="tp">
@@ -131,13 +173,25 @@ footer{text-align:center;color:#c9b8dd;font-size:14px;margin-top:26px}
         <button type="button" id="again">Confess something else</button>
       </div>
     </section>
+
+    <section id="readView" hidden aria-live="polite">
+      <div id="count" class="count" hidden><b id="countNum">0</b><span id="countTxt">confessions shared</span><small id="countTot"></small></div>
+      <div id="grid" class="grid"></div>
+      <div id="note" class="note" hidden></div>
+      <button type="button" class="refresh" id="refresh">↻ Refresh</button>
+    </section>
     <footer>Happy Halloween 🎃 keep it kind</footer>
   </div>
 </div>
 
+<button type="button" id="music" class="music" aria-pressed="false" aria-label="Toggle background music">
+  <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+  <span id="musicIcon" aria-hidden="true">🔊</span><span id="musicLabel">Music on</span>
+</button>
+
 <script>
 /* ============ SETUP: paste your Google Apps Script web app URL here ============ */
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxtsqF71kD2Slq8UfAcHm3E2Ul_pPBOnry81EZABdeK3psEKIyuj7YgfL9UZbRk_4kQ/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwGZJSQB5BBC5sHUIKqjeTvB0yZDQmDFvxmVv1tIIKeEA6WEcnShBN_nn-55UAUUCGn/exec";
 /* ================================================================================ */
 
 const $ = id => document.getElementById(id);
@@ -175,6 +229,138 @@ $('form').addEventListener('submit', async e => {
   }
 });
 $('again').addEventListener('click', () => ticket.classList.remove('done'));
+
+// ---- tabs + reading confessions ----
+const wrap = document.querySelector('.wrap'), tabSend = $('tabSend'), tabRead = $('tabRead');
+let loadedAt = 0;
+const EMOJIS = ['🎃','👻','🦇','✨','🪩','🦋','💌','🕯️'];
+const hash = s => { let h = 0; for (const c of s) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h; };
+
+function show(view) {
+  const read = view === 'read';
+  ticket.hidden = read; $('readView').hidden = !read;
+  wrap.classList.toggle('wide', read);
+  tabSend.setAttribute('aria-selected', !read); tabRead.setAttribute('aria-selected', read);
+  try { history.replaceState(null, '', read ? '#read' : location.pathname + location.search); } catch (x) {}
+  if (read && Date.now() - loadedAt > 30000) loadConfessions();
+}
+tabSend.onclick = () => show('send');
+tabRead.onclick = () => show('read');
+$('refresh').onclick = loadConfessions;
+
+function card(item, i) {
+  const h = hash(item.text + item.name), a = document.createElement('article');
+  a.className = 'card v' + (h % 4);
+  a.style.animationDelay = Math.min(i, 12) * 50 + 'ms';
+  const ct = document.createElement('div'); ct.className = 'ct';
+  const p = document.createElement('p'); p.textContent = item.text;
+  ct.append(p);
+  const cb = document.createElement('div'); cb.className = 'cb';
+  cb.textContent = '~' + (item.name || 'Anonymous');
+  const em = document.createElement('span'); em.className = 'em'; em.setAttribute('aria-hidden', 'true');
+  em.textContent = EMOJIS[(h >> 3) % EMOJIS.length];
+  a.append(ct, cb, em);
+  return a;
+}
+
+function showCount(n, total) {
+  $('count').hidden = false;
+  $('countTxt').textContent = n === 1 ? 'confession shared' : 'confessions shared';
+  $('countTot').textContent = total > n ? 'of ' + total + ' received' : '';
+  const el = $('countNum'), t0 = performance.now();
+  (function f(t) { const k = Math.min(1, (t - t0) / 700); el.textContent = Math.round(n * k); if (k < 1) requestAnimationFrame(f); })(t0);
+}
+
+async function loadConfessions() {
+  const grid = $('grid'), note = $('note');
+  const say = t => { note.textContent = t; note.hidden = false; };
+  if (SCRIPT_URL.startsWith('PASTE')) { grid.replaceChildren(); say('Not connected yet. Add the Apps Script URL in index.html.'); return; }
+  say('Loading confessions…');
+  try {
+    const r = await fetch(SCRIPT_URL, { cache: 'no-store' });
+    const d = await r.json(), items = d.items || [];
+    grid.replaceChildren(...items.map((it, i) => card(it, i)));
+    loadedAt = Date.now(); showCount(items.length, d.total);
+    if (items.length) note.hidden = true; else say('Nothing here yet. Be the first to confess!');
+  } catch (e) {
+    $('count').hidden = true; grid.replaceChildren(); say('Couldn’t load confessions. Check your connection and hit refresh.');
+  }
+}
+if (location.hash !== '#read') {
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  scrollTo(0, 0);
+  addEventListener('load', () => scrollTo(0, 0));
+}
+show(location.hash === '#read' ? 'read' : 'send');
+
+// ---- background music ----
+const MUSIC_SRC = 'song.m4a';   // your file in the same repo folder (or a full direct URL). '' = built-in loop
+const MUSIC_VOLUME = 0.3;       // 0 = silent, 1 = full. Change this to find the perfect level.
+const mbtn = $('music'), mlab = $('musicLabel'), micon = $('musicIcon');
+let on = true, AC = null, audio = null, usingSynth = false;
+
+function setUI() {
+  mbtn.setAttribute('aria-pressed', on);
+  micon.textContent = on ? '🔊' : '🔇';
+  mlab.textContent = on ? 'Music on' : 'Music off';
+}
+// backup: built-in ambient loop, used only if the audio file is missing or empty
+function startSynth() {
+  usingSynth = true; if (audio) audio.pause();
+  if (AC) { AC.resume(); return; }
+  AC = new (window.AudioContext || window.webkitAudioContext)();
+  const m = AC.createGain(); m.gain.value = MUSIC_VOLUME; m.connect(AC.destination);
+  const lp = AC.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1000; lp.connect(m);
+  const nb = AC.createBuffer(1, AC.sampleRate * 2, AC.sampleRate), d = nb.getChannelData(0);
+  for (let i = 0; i < d.length; i++) d[i] = Math.random() < .0015 ? Math.random() * 2 - 1 : 0;   // vinyl crackle
+  const ns = AC.createBufferSource(), ng = AC.createGain(); ns.buffer = nb; ns.loop = true; ng.gain.value = .05;
+  ns.connect(ng); ng.connect(m); ns.start();
+  const tone = (f, t, len, type, v, att, dest) => {
+    const o = AC.createOscillator(), g = AC.createGain(); o.type = type; o.frequency.value = f;
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(v, t + att); g.gain.exponentialRampToValueAtTime(.0001, t + len);
+    o.connect(g); g.connect(dest); o.start(t); o.stop(t + len + .1);
+  };
+  const chords = [[220,261.6,329.6,493.9],[174.6,220,261.6,329.6],[146.8,174.6,220,329.6],[164.8,207.7,246.9,293.7]];
+  const pent = [440,523.3,587.3,659.3,784,880];
+  let bar = 0;
+  (function loop() {
+    if (AC.state === 'running') {
+      const t = AC.currentTime + .05;
+      chords[bar % 4].forEach((f, i) => tone(f, t + i * .06, 4.2, 'triangle', .09, .7, lp));
+      for (let k = 0; k < 6; k++) if (Math.random() < .55) tone(pent[Math.floor(Math.random() * pent.length)], t + k * .66, 1.8, 'sine', .06, .01, m);
+      bar++;
+    }
+    setTimeout(loop, 4000);
+  })();
+}
+function play() {
+  on = true; setUI();
+  if (!MUSIC_SRC || usingSynth) return startSynth();
+  if (!audio) {
+    audio = new Audio(MUSIC_SRC); audio.loop = true; audio.preload = 'auto';
+    audio.addEventListener('error', () => { if (on) startSynth(); else usingSynth = true; });
+  }
+  audio.volume = MUSIC_VOLUME;
+  return audio.play().catch(e => { if (e.name === 'NotSupportedError' && on) startSynth(); });
+}
+function pause() {
+  on = false; setUI();
+  if (audio) audio.pause();
+  if (AC) AC.suspend();
+}
+
+const isPlaying = () => (audio && !audio.paused && audio.currentTime > 0) || (AC && AC.state === 'running');
+mbtn.onclick = () => { on && isPlaying() ? pause() : play(); };
+
+// play by default: try straight away. Browsers refuse sound before the visitor has touched the page,
+// so if it is blocked, it starts on their first tap, click or key press anywhere.
+const kick = e => {
+  if (!on || isPlaying() || (e.target.closest && e.target.closest('#music'))) return;
+  play();
+};
+['pointerdown', 'touchend', 'click', 'keydown'].forEach(ev => addEventListener(ev, kick, { passive: true }));
+setUI();
+if (on) play();
 
 // stars across the night layer
 const page = $('page');
